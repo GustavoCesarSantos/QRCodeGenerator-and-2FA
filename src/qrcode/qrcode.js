@@ -1,9 +1,14 @@
-const fs = require('fs');
 const qrcode = require('qrcode');
 
-const secret = require('./speakeasy');
+const speakeasy = require('./speakeasy');
 
-qrcode.toDataURL(secret.otpauth_url, (error, url) => {
-  console.log('QRCODE: ', url);
-});
+const generateQrCode = async () => {
+  return await qrcode.toDataURL(speakeasy.secret.otpauth_url);
+};
 
+const verifyUserToken = userToken => {
+  const result = speakeasy.verifyUserToken(userToken);
+  return result;
+};
+
+module.exports = { generateQrCode, verifyUserToken }
