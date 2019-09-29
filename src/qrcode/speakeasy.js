@@ -1,10 +1,14 @@
 const speakeasy = require('speakeasy');
 
-const secret = speakeasy.generateSecret({ length: 25 });
+const token = speakeasy.generateSecret({ length: 25 });
 
-const verifyUserToken = userToken => {
-  const result = speakeasy.totp.verify({
-    secret: secret.base32,
+const getToken = () => {
+  return token;
+};
+
+const verifyUserToken = async (token, userToken) => {
+  const result = await speakeasy.totp.verify({
+    secret: token.base32,
     encoding: 'base32',
     token: userToken,
   });
@@ -12,4 +16,4 @@ const verifyUserToken = userToken => {
   return result;
 };
 
-module.exports = { secret, verifyUserToken }
+module.exports = { getToken, verifyUserToken }
